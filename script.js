@@ -1,6 +1,8 @@
 var rows = 0;
 var current_row = 0;
 var score = 0;
+var shown_score = 0;
+var answers = [];
 function randint(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
@@ -8,27 +10,28 @@ function randint(min, max) {
 }
 function youLose() {
 	alert("You lose.\nFinal score: " + score.toString() + ".\nGood job!");
-	score = 0;
-	$('#score').html(score);
+	shown_score = 0;
+	$('#score').html(shown_score);
 }
 function addRow(correct) {
 	var new_id = 'row' + rows.toString();
 	$('#game').prepend('<div id="' + new_id + '" class="row"></div>');
 	for (i=0; i<4; i++) {
 		if (i == correct) {
-			$('#' + new_id).append('<div class="tile correct" data-correct="1" data-row="' + rows.toString() + '"></div>');
+			$('#' + new_id).append('<div class="tile correct" data-col="' + i.toString() + '"></div>');
+			answers.push(i);
 		} else {
-			$('#' + new_id).append('<div class="tile" data-correct="0"></div>');
+			$('#' + new_id).append('<div class="tile" data-col="' + i.toString() + '"></div>');
 		}
 	}
 	$('#' + new_id + ' .tile').click(function() {
-		if ($(this).attr('data-correct') == '1' && $(this).attr('data-row') == current_row.toString()) {
-			$(this).removeClass('correct');
-			$(this).addClass('clicked');
+		if ($(this).attr('data-col') == answers[score]) {
+			$('#' + 'row' + (rows-3).toString() + ' .tile.correct').addClass('clicked');
 			addRow(randint(0,4));
 			current_row += 1;
 			score += 1;
-			$('#score').html(score);
+			shown_score += 1;
+			$('#score').html(shown_score);
 		} else {
 			youLose();
 		}

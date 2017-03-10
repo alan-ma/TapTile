@@ -38,7 +38,7 @@ header {
 .tile.correct {
 	background: #000;
 }
-.tile.clicked {
+.tile.correct.clicked {
 	background: #777;
 }
 #score {
