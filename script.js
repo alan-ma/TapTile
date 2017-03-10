@@ -18,10 +18,10 @@ function addRow(correct) {
 	$('#game').prepend('<div id="' + new_id + '" class="row"></div>');
 	for (i=0; i<4; i++) {
 		if (i == correct) {
-			$('#' + new_id).append('<div class="tile correct" data-col="' + i.toString() + '"></div>');
+			$('#' + new_id).append('<div class="tile correct ' + i.toString() + '" data-col="' + i.toString() + '"></div>');
 			answers.push(i);
 		} else {
-			$('#' + new_id).append('<div class="tile" data-col="' + i.toString() + '"></div>');
+			$('#' + new_id).append('<div class="tile ' + i.toString() + '" data-col="' + i.toString() + '"></div>');
 		}
 	}
 	$('#' + new_id + ' .tile').click(function() {
@@ -33,7 +33,10 @@ function addRow(correct) {
 			shown_score += 1;
 			$('#score').html(shown_score);
 		} else {
-			youLose();
+			$('#' + 'row' + (rows-3).toString() + ' .tile.' + $(this).attr('data-col')).addClass('wrong');
+			setTimeout(function() {
+				youLose();
+			}, 200);
 		}
 	});
 	rows += 1;

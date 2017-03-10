@@ -39,7 +39,10 @@ header {
 	background: #000;
 }
 .tile.correct.clicked {
-	background: #777;
+	background: #999;
+}
+.tile.wrong {
+	background: #DD0005;
 }
 #score {
 	position: absolute;
