@@ -114,5 +114,5 @@ $(document).ready(function() {
 		if (current_time == stop) {
 			gameOver();
 		}
-	}, 500);
+	}, 1000);
 });
