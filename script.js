@@ -3,21 +3,45 @@ var current_row = 0;
 var score = 0;
 var shown_score = 0;
 var answers = [];
-var no_block = true;
+var date = new Date();
+var interval = 8;
+var start = date.getSeconds();
+var stop = start + interval;
+var new_game = true;
 function randint(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min)) + min;
 }
+function resetBar() {
+	$('#time_remaining').css('transition', 'width 0s linear');
+	$('#time_remaining').css('width', '100%');
+}
+function lowerBar() {
+	$('#time_remaining').css('transition', 'width ' + (interval).toString() + 's linear');	
+	$('#time_remaining').css('width', '0');
+	resetTime();
+}
 function youLose() {
-	if (no_block) {
-		alert("You lose.\nFinal score: " + shown_score.toString() + ".\nGood job!");
-		no_block = false;
+	if (confirm("You lose.\nFinal score: " + shown_score.toString() + ".\nGood job!")) {
+		shown_score = 0;
+		$('#score').html(shown_score);
 	}
+	resetBar();
+	new_game = true;
+}
+function gameOver() {
+	if (confirm("Game Over!\nFinal score: " + shown_score.toString() + ".\nGood job!")) {}
 	shown_score = 0;
 	$('#score').html(shown_score);
+	resetBar();
+	new_game = true;
 }
 function isCorrect() {
+	if (new_game) {
+		lowerBar();
+		new_game = false;
+	}
 	$('#' + 'row' + (rows-3).toString() + ' .tile.correct').addClass('clicked');
 	addRow(randint(0,4));
 	current_row += 1;
@@ -32,7 +56,6 @@ function isWrong(col_value) {
 		youLose();
 		temp.removeClass('wrong');
 	}, 1);
-	no_block = true;
 }
 function addRow(correct) {
 	var new_id = 'row' + rows.toString();
@@ -54,8 +77,13 @@ function addRow(correct) {
 	});
 	rows += 1;
 }
+function resetTime() {
+	date = new Date();
+	start = date.getSeconds();
+	stop = (start + interval) % 60;
+}
 $(document).ready(function() {
-	(function doTimeout (i) {
+	(function doTimeout(i) {
 		setTimeout(function () {
 			if (i--) {
 				addRow(randint(0,4));
@@ -80,4 +108,11 @@ $(document).ready(function() {
 			isWrong(value.toString());
 		}
 	});
+	setInterval(function() {
+		date = new Date();
+		current_time = date.getSeconds()
+		if (current_time == stop) {
+			gameOver();
+		}
+	}, 500);
 });

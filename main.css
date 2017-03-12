@@ -52,6 +52,15 @@ header {
 	text-align: center;
 	font-size: 50px;
 	color: #3AE637;
+	z-index: 10;
+}
+#time_remaining {
+	position: absolute;
+	background: red;
+	width: 100%;
+	left: 0;
+	top: 0;
+	height: 60px;
 }
 
 @media screen and (max-width: 720px) {
