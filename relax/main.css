@@ -23,8 +23,8 @@ header {
 	position: relative;
 }
 #game {
-	display: flex;
-	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
 }
 .row {
 	height: 25%;
